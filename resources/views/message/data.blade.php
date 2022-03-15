@@ -2,7 +2,6 @@
 <html lang="en">
 
 <head>
-
     <meta charset="utf-8"/>
     <title>Message Form</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -22,40 +21,70 @@
 
 <body>
 <div id="layout-wrapper">
-    <div class="main-content">
-
-        <div class="page-content">
-            <div class="container-fluid">
-                <div class="row">
+    <div class="page-content">
+        <div class="container-fluid">
+            <div class="row">
+                <div class="card">
                     <div class="table-responsive">
                         <table class="table table-striped mb-0">
                             <thead>
+                            <a href="/dashboard" class="card-title">Back</a>
                             <tr>
                                 <th>#</th>
-                                <th>First Name</th>
-                                <th>Last Name</th>
-                                <th>Username</th>
+                                <th>Message subject</th>
+                                <th>Message content</th>
+                                <th>File</th>
+                                <th>Read</th>
+                                <th>Actions</th>
                             </tr>
                             </thead>
                             <tbody>
-                            <tr>
-                                <th scope="row">1</th>
-                                <td>Mark</td>
-                                <td>Otto</td>
-                                <td>@mdo</td>
-                            </tr>
-                            <tr>
-                                <th scope="row">2</th>
-                                <td>Jacob</td>
-                                <td>Thornton</td>
-                                <td>@fat</td>
-                            </tr>
-                            <tr>
-                                <th scope="row">3</th>
-                                <td>Larry</td>
-                                <td>the Bird</td>
-                                <td>@twitter</td>
-                            </tr>
+                            @foreach($messages as $message)
+                                <tr>
+                                    <th scope="row">1</th>
+                                    <td>{{ $message->subject }}</td>
+                                    <td>{{ $message->message }}</td>
+                                    <td><a href="/storage/{{ $message->file }}">download file</a></td>
+                                    <td><p>@if($message->status) Read @else Unread @endif</p></td>
+                                    <td>
+                                        <form action="/message/{{ $message->id }}" method="post">
+                                            @csrf
+                                            @method('put')
+                                            <input type="hidden" name="status" value="1">
+                                            <button type="submit"
+                                                    class="btn btn-sm btn-warning waves-effect waves-float waves-light">
+                                                <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14"
+                                                     viewBox="0 0 24 24"
+                                                     fill="none" stroke="currentColor" stroke-width="2"
+                                                     stroke-linecap="round"
+                                                     stroke-linejoin="round"
+                                                     class="feather feather-edit-2 font-medium-3">
+                                                    <path
+                                                        d="M17 3a2.828 2.828 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5L17 3z"></path>
+                                                </svg>
+                                            </button>
+                                        </form>
+                                        <form action="/message/{{ $message->id }}" method="post"
+                                              style="display: inline">
+                                            @csrf
+                                            @method('delete')
+                                            <button type="submit"
+                                                    onclick="return confirm('Are you sure to remove?')"
+                                                    class="btn btn-sm btn-danger waves-effect waves-float waves-light">
+                                                <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14"
+                                                     viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                                     stroke-width="2"
+                                                     stroke-linecap="round" stroke-linejoin="round"
+                                                     class="feather feather-trash font-medium-3">
+                                                    <polyline points="3 6 5 6 21 6"></polyline>
+                                                    <path
+                                                        d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path>
+                                                </svg>
+                                            </button>
+                                        </form>
+                                    </td>
+                                </tr>
+                            @endforeach
                             </tbody>
                         </table>
                     </div>

@@ -15,6 +15,10 @@ class CreateMessagesTable extends Migration
     {
         Schema::create('messages', function (Blueprint $table) {
             $table->id();
+            $table->string('subject');
+            $table->text('message');
+            $table->string('file');
+            $table->boolean('status')->default(false);
             $table->timestamps();
         });
     }

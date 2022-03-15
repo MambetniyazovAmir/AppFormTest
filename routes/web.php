@@ -17,7 +17,10 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-Route::get('/message', 'MessageController@index');
+Route::get('/message', 'MessageController@index')->name('message');
+Route::post('/message', 'MessageController@store')->name('messageStore');
+Route::put('/message/{message}', 'MessageController@update')->name('messageStore');
+Route::delete('/message/{message}', 'MessageController@destroy')->name('messageStore');
 
 Route::get('/dashboard', function () {
     return view('dashboard');
