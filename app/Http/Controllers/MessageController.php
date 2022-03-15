@@ -30,7 +30,7 @@ class MessageController extends Controller
         $message->update(
             ['file' => 'message/' . $fileName,]
         );
-        $request->file('file')->storeAs('message', $fileName);
+        $request->file('file')->storeAs('public/message', $fileName);
 
         return back()->with('success', 'Succesfully created message');
     }

@@ -44,7 +44,7 @@
                                     <th scope="row">1</th>
                                     <td>{{ $message->subject }}</td>
                                     <td>{{ $message->message }}</td>
-                                    <td><a href="/storage/{{ $message->file }}">download file</a></td>
+                                    <td><a href="{{ \Illuminate\Support\Facades\Storage::url($message->file) }}">download file</a></td>
                                     <td><p>@if($message->status) Read @else Unread @endif</p></td>
                                     <td>
                                         <form action="/message/{{ $message->id }}" method="post">
