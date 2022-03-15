@@ -45,6 +45,7 @@ class MessageController extends Controller
 
     public function destroy(Message $message)
     {
+        Storage::disk('public')->delete($message->file);
         $message->delete();
         return back()->with('success', 'Message removed');
     }

@@ -24,10 +24,18 @@
 <div id="layout-wrapper">
     <div class="page-content">
         <div class="container-fluid">
+            @if(session()->has('success'))
+                <div class="alert alert-success" >
+                    <p class="m-2">{{ session()->get('success') }}</p>
+                </div>
+            @endif
             <div class="row">
                 <div class="card">
                     <div class="card-body">
-                        <a href="/dashboard" class="card-title" style="float: right">Back</a>
+                        <form action="{{ route('logout') }}" method="post">
+                            @csrf
+                            <button class="btn" style="float: right">Logout</button>
+                        </form>
                         <h4 class="card-title">Message form</h4>
                         <form class="needs-validation" novalidate action="/message" method="post"
                               enctype="multipart/form-data">
@@ -40,9 +48,6 @@
                                                name="subject"
                                                value="{{ old('subject') }}"
                                                placeholder="Subject" required>
-                                        <div class="valid-tooltip">
-                                            Looks good!
-                                        </div>
                                         <div class="invalid-tooltip">
                                             Please fill required input
                                         </div>
@@ -56,9 +61,7 @@
                                                   cols="3"
                                                   name="message"
                                                   placeholder="Message" required>{{ old('message') }}</textarea>
-                                        <div class="valid-tooltip">
-                                            Looks good!
-                                        </div>
+
                                         <div class="invalid-tooltip">
                                             Please fill required input
                                         </div>
@@ -76,9 +79,7 @@
                                             @if ($errors->has('file'))
                                                 <span class="text-danger">{{ $errors->first('file') }}</span>
                                             @endif
-                                            <div class="valid-tooltip">
-                                                Looks good!
-                                            </div>
+
                                             <div class="invalid-tooltip">
                                                 Please fill required input
                                             </div>

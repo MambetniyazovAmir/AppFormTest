@@ -20,15 +20,24 @@
 </head>
 
 <body>
+
 <div id="layout-wrapper">
     <div class="page-content">
         <div class="container-fluid">
+            @if(session()->has('success'))
+                <div class="alert alert-success" >
+                    <p class="m-2">{{ session()->get('success') }}</p>
+                </div>
+            @endif
             <div class="row">
                 <div class="card">
                     <div class="table-responsive">
                         <table class="table table-striped mb-0">
                             <thead>
-                            <a href="/dashboard" class="card-title">Back</a>
+                            <form action="{{ route('logout') }}" method="post">
+                                @csrf
+                                <button class="btn" style="float: right">Logout</button>
+                            </form>
                             <tr>
                                 <th>#</th>
                                 <th>Message subject</th>
@@ -44,7 +53,8 @@
                                     <th scope="row">1</th>
                                     <td>{{ $message->subject }}</td>
                                     <td>{{ $message->message }}</td>
-                                    <td><a href="{{ \Illuminate\Support\Facades\Storage::url($message->file) }}">download file</a></td>
+                                    <td><a href="{{ \Illuminate\Support\Facades\Storage::url($message->file) }}">download
+                                            file</a></td>
                                     <td><p>@if($message->status) Read @else Unread @endif</p></td>
                                     <td>
                                         <form action="/message/{{ $message->id }}" method="post">
