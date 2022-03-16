@@ -25,7 +25,7 @@
     <div class="page-content">
         <div class="container-fluid">
             @if(session()->has('success'))
-                <div class="alert alert-success" >
+                <div class="alert alert-success">
                     <p class="m-2">{{ session()->get('success') }}</p>
                 </div>
             @endif
@@ -42,6 +42,9 @@
                                 <th>#</th>
                                 <th>Message subject</th>
                                 <th>Message content</th>
+                                <th>User email</th>
+                                <th>User name</th>
+                                <th>Created at</th>
                                 <th>File</th>
                                 <th>Read</th>
                                 <th>Actions</th>
@@ -53,6 +56,9 @@
                                     <th scope="row">1</th>
                                     <td>{{ $message->subject }}</td>
                                     <td>{{ $message->message }}</td>
+                                    <td>{{ $message->user->email }}</td>
+                                    <td>{{ $message->user->name }}</td>
+                                    <td>{{ $message->created_at->format('d.m.Y') }} </td>
                                     <td><a href="{{ \Illuminate\Support\Facades\Storage::url($message->file) }}">download
                                             file</a></td>
                                     <td><p>@if($message->status) Read @else Unread @endif</p></td>

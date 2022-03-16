@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\MessageRequest;
 use App\Models\Message;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
@@ -24,14 +25,20 @@ class MessageController extends Controller
 
     public function store(MessageRequest $request)
     {
-        $message = Message::create($request->validated());
+        if (\auth()->user()->lastMessage) {
+            if (now()->diff(\auth()->user()->lastMessage->created_at)->h < 24)
+                return back()->with('success', 'Please try again later');
+        }
 
         $fileName = Str::random(10) . '.' . $request->file('file')->getClientOriginalExtension();
-        $message->update(
-            ['file' => 'message/' . $fileName,]
-        );
-        $request->file('file')->storeAs('public/message', $fileName);
+        $message = new Message();
+        $message->subject = $request->subject;
+        $message->message = $request->message;
+        $message->user_id = \auth()->id();
+        $message->file = 'message/' . $fileName;
+        $message->save();
 
+        $request->file('file')->storeAs('public/message', $fileName);
         return back()->with('success', 'Succesfully created message');
     }
 

@@ -13,16 +13,13 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
+Route::group(['middleware' => 'auth'], function (){
+    Route::get('/message', 'MessageController@index')->name('message');
+    Route::post('/message', 'MessageController@store')->name('messageStore');
+    Route::put('/message/{message}', 'MessageController@update')->name('messageStore');
+    Route::delete('/message/{message}', 'MessageController@destroy')->name('messageStore');
+});
+
 Route::get('/', 'MessageController@index')->middleware(['auth']);
-
-Route::get('/message', 'MessageController@index')->name('message');
-Route::post('/message', 'MessageController@store')->name('messageStore');
-Route::put('/message/{message}', 'MessageController@update')->name('messageStore');
-Route::delete('/message/{message}', 'MessageController@destroy')->name('messageStore');
-
-//
-//Route::get('/dashboard', function () {
-//    return view('dashboard');
-//})->middleware(['auth'])->name('dashboard');
 
 require __DIR__.'/auth.php';
